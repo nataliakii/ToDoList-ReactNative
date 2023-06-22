@@ -33,13 +33,14 @@ const ToDo = () => {
   };
 
   //Displaying 5 default tasks once on first this component loads
-  useState(() => {
+  useEffect(() => {
     addToDos(number);
   }, []);
 
-  const handleCheckboxPress = (item: { id: number; done: boolean }) => {
-    item.done = !item.done;
-    setTodoListData([...todoListData].sort((a, b) => (a.done === b.done ? 0 : a.done ? -1 : 1)));
+  const handleCheckboxPress = (item: { id: number; done: boolean }, isChecked:boolean) => {
+    item.done = isChecked;
+  // sorting updated data so done items go to the end of the list 
+    setTodoListData([...todoListData].sort((a, b) => (a.done === b.done ? 0 : a.done ? 1 : -1)));
   };
 
   return (
@@ -72,7 +73,7 @@ const ToDo = () => {
                 text={item.title}
                 iconStyle={{borderColor: '#BF1769'}}
                 innerIconStyle={{borderWidth: 2}}
-                onPress={(isChecked: boolean) => handleCheckboxPress(item)}
+                onPress={(isChecked: boolean) => handleCheckboxPress(item,isChecked)}
               />
             </View>
           )}
