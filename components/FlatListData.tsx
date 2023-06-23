@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Text,
   TextInput,
@@ -9,23 +9,27 @@ import {
   Alert,
 } from 'react-native';
 import Checkbox from './Checkbox';
-import {AppContext} from './appContext';
+import { AppContext } from './appContext';
+import i18n from '../text/i18n';
 
 const FlatListRender: React.FC = () => {
-  const {todoListData, setTodoListData, deleteItem} = useContext(AppContext);
+  const { todoListData, setTodoListData, deleteItem } = useContext(AppContext);
 
   const [editingItemId, setEditingItemId] = useState(0);
   const [editingItemText, setEditingItemText] = useState('');
 
   const handleDelete = (id: number, title: string) => {
-    Alert.alert('Delete Task?', `Do you really want to delete "${title}"`, [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      {text: 'Yes', onPress: () => deleteItem(id)},
-    ]);
+    Alert.alert(
+      i18n.t('flat-list.alert1'),
+      i18n.t('flat-list.alert2', { title: title }),
+      [
+        {
+          text: i18n.t('flat-list.alert3'),
+          style: 'cancel',
+        },
+        { text: i18n.t('flat-list.alert4'), onPress: () => deleteItem(id) },
+      ],
+    );
   };
 
   const handleEditStart = (itemId: number, currentText: string) => {
@@ -36,7 +40,7 @@ const FlatListRender: React.FC = () => {
   const handleEditSave = (itemId: number) => {
     const updatedData = todoListData.map(item => {
       if (item.id === itemId) {
-        return {...item, title: editingItemText};
+        return { ...item, title: editingItemText };
       }
       return item;
     });
@@ -47,7 +51,7 @@ const FlatListRender: React.FC = () => {
   };
 
   const handleCheckboxPress = (
-    item: {id: number; done: boolean; title: String},
+    item: { id: number; done: boolean; title: String },
     isChecked: boolean,
   ) => {
     item.done = isChecked;
@@ -63,7 +67,7 @@ const FlatListRender: React.FC = () => {
     <FlatList
       data={todoListData}
       keyExtractor={item => item.id.toString()}
-      renderItem={({item}) => (
+      renderItem={({ item }) => (
         <View style={styles.taskItem}>
           <Checkbox handlePress={handleCheckboxPress} item={item} />
           <View style={styles.textContainer}>
@@ -83,7 +87,7 @@ const FlatListRender: React.FC = () => {
           </View>
           {/* Delete button */}
           <TouchableOpacity onPress={() => handleDelete(item.id, item.title)}>
-            <Text style={styles.delete}>Delete</Text>
+            <Text style={styles.delete}>{i18n.t('flat-list.del')}</Text>
           </TouchableOpacity>
         </View>
       )}

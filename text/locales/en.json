@@ -2,9 +2,9 @@
     "main": {
       "alert1": "Invalid Input",
       "alert2": "Please enter a valid number.",
-      "alert3": "Now you have",
-      "alert4": "tasks",
+      "alert3": "Now you have %{number} tasks",
       "alert5": "Congrads!!!",
+      "task": "Task number ",
       "header": "Type-in number of tasks",
       "placeholder" :"This input is for number"
 
