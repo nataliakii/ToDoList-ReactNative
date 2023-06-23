@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useContext, useEffect, useState} from 'react';
-import {Text, TextInput, View, Image, StyleSheet, Alert} from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Text, TextInput, View, Image, StyleSheet, Alert } from 'react-native';
 import FlatListData from '../components/FlatListData';
 import LINK from '../config';
-import {AppContext} from '../components/appContext';
+import { AppContext } from '../components/appContext';
+import i18n from '../text/i18n';
+import LanguageMenu from '../components/LanguageMenu';
 
 const Main = () => {
-  const {number, setNumber, addTodos} = useContext(AppContext);
+  const { number, setNumber, addTodos } = useContext(AppContext);
 
   //Displaying 5 default tasks once on first this component loads
   useEffect(() => {
@@ -16,9 +18,12 @@ const Main = () => {
 
   const handleSubmit = () => {
     if (isNaN(number) || 0) {
-      Alert.alert('Invalid Input', 'Please enter a valid number.');
+      Alert.alert(i18n.t('main.alert1'), i18n.t('main.alert2'));
     } else {
-      Alert.alert(`Now you have ${number} tasks`, 'Congrads!');
+      Alert.alert(
+        i18n.t('main.alert3', { number: number }),
+        i18n.t('main.alert5'),
+      );
       addTodos(number);
     }
   };
@@ -32,11 +37,14 @@ const Main = () => {
           }}
           style={styles.headerImage}
         />
-        <Text style={styles.headerText}>Type-in number of tasks</Text>
+        <View style={styles.languageMenuContainer}>
+          <LanguageMenu />
+        </View>
+        <Text style={styles.headerText}>{i18n.t('main.header')}</Text>
         <TextInput
           style={styles.input}
           value={number}
-          placeholder="This input is  for number"
+          placeholder={i18n.t('main.placeholder')}
           onChangeText={newNum => setNumber(Number(newNum))}
           onBlur={() => handleSubmit()}
           autoFocus
@@ -75,7 +83,14 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 20,
+    marginTop: 10,
     borderBottomWidth: 3,
     borderBottomColor: '#BF1769',
+  },
+  languageMenuContainer: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    zIndex: 1,
   },
 });

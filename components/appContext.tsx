@@ -6,6 +6,7 @@ import React, {
   ReactNode,
 } from 'react';
 import _ from 'lodash';
+import i18n from '../text/i18n';
 
 type ItemType = {
   id: number;
@@ -36,7 +37,7 @@ export const AppContext = createContext<AppContextType>({
 });
 
 // Create the provider component
-export const AppProvider: React.FC<AppProviderProps> = ({children}) => {
+export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [todoListData, setTodoListData] = useState<ItemType[]>([]);
   const [number, setNumber] = useState(5);
 
@@ -46,7 +47,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({children}) => {
     for (let i = 0; i < num; i++) {
       const obj = {
         id: i + 1,
-        title: `Task number ${i + 1}`,
+        title: i18n.t('main.task') + `${i + 1}`,
         done: false,
       };
       newData.push(obj);
@@ -55,7 +56,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({children}) => {
   };
 
   const deleteItem = (id: number) => {
-    const newTodoListData = _.reject(todoListData, {id: id});
+    const newTodoListData = _.reject(todoListData, { id: id });
     setTodoListData(newTodoListData);
   };
 

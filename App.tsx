@@ -1,16 +1,19 @@
 import React from 'react';
-import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import Main from './screen/Main';
-import {AppProvider} from './components/appContext';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { AppProvider as ContextProvider } from './components/appContext';
 
 const App = () => {
   return (
-    <AppProvider>
-      <SafeAreaView style={styles.safeArea}>
-        <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-        <Main />
-      </SafeAreaView>
-    </AppProvider>
+    <ContextProvider>
+      <PaperProvider>
+        <SafeAreaView style={styles.safeArea}>
+          <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
+          <Main />
+        </SafeAreaView>
+      </PaperProvider>
+    </ContextProvider>
   );
 };
 
