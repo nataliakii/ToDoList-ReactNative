@@ -11,7 +11,7 @@
     },
     "flat-list": {
         "alert1": "Delete Task?",
-        "alert2": "Do you really want to delete",
+        "alert2": "Do you really want to delete %{title}?",
         "alert3": "Cancel",
         "alert4": "Yes",
         "del": "Delete"

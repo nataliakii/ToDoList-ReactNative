@@ -1,4 +1,4 @@
 const LINK =
-  'https://images.unsplash.com/photo-1502101872923-d48509bff386?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2064&q=80';
+  'https://app.rulka.com.ua/uploads/thumbnail_NEW_BANNER_RULKA_03_f820158b26.jpg';
 
 export default LINK;

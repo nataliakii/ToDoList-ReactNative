@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Alert,
   Platform,
+  Dimensions,
 } from 'react-native';
 import FlatListData from '../components/FlatListData';
 import LINK from '../config';
@@ -50,12 +51,13 @@ const Main = () => {
 
   return (
     <View style={{ ...styles.container, ...background }}>
-      <View style={{...styles.header,...borderBottom}}>
+      <View style={{ ...styles.header, ...borderBottom }}>
         <Image
           source={{
             uri: LINK,
           }}
           style={styles.headerImage}
+          onError={err => console.log(err)}
         />
         <View style={styles.languageMenuContainer}>
           <LanguageMenu />
@@ -101,11 +103,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
     borderBottomWidth: 3,
-    //borderBottomColor: '#BF1769',
+    marginVertical: 20,
   },
   headerImage: {
-    width: 400,
-    height: 200,
+    resizeMode: 'stretch',
+    width: Dimensions.get('window').width,
+    height: (Dimensions.get('window').height / 5) * 1.618,
   },
   headerText: {
     fontSize: 20,
