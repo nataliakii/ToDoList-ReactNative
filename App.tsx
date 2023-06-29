@@ -14,10 +14,7 @@ const App = () => {
     <ThemeProvider>
       <ContextProvider>
         <PaperProvider>
-          <SafeAreaView style={{...styles.safeArea, background}}>
-            <StatusBar
-              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            />
+          <SafeAreaView style={styles.safeArea}>
             <Main />
           </SafeAreaView>
         </PaperProvider>

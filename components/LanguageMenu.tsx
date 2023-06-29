@@ -66,6 +66,6 @@ const styles = StyleSheet.create({
   },
   menu: {
     top: 60,
-    left: 130
+    left: 130,
   }
 });
