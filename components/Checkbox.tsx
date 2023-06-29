@@ -10,14 +10,14 @@ type ItemType = {
 const Checkbox: React.FC<{
   handlePress: (item: ItemType, isChecked: boolean) => void;
   item: ItemType;
-}> = ({handlePress, item}) => {
+}> = ({ handlePress, item }) => {
   return (
     <BouncyCheckbox
       size={25}
       fillColor="#BF1769"
       unfillColor="#FFFFFF"
-      iconStyle={{borderColor: '#BF1769'}}
-      innerIconStyle={{borderWidth: 2}}
+      iconStyle={{ borderColor: '#BF1769' }}
+      innerIconStyle={{ borderWidth: 2 }}
       onPress={(isChecked: boolean) => handlePress(item, isChecked)}
     />
   );

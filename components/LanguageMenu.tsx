@@ -21,6 +21,7 @@ const LanguageMenu = () => {
     i18n.locale = language;
     closeMenu();
   };
+
   const { mode } = useThemeMode();
   const { buttonStyle } = themes;
 
@@ -28,8 +29,11 @@ const LanguageMenu = () => {
     ...buttonStyle,
     backgroundColor: themes[mode || 'light'].button.primary,
     color: themes[mode || 'light'].text.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
   };
   const text = { color: themes[mode || 'light'].text.primary };
+
   return (
     <View style={buttonContainerStyle}>
       <Button onPress={openMenu}>{str}</Button>
@@ -39,13 +43,13 @@ const LanguageMenu = () => {
           onDismiss={closeMenu}
           anchor={<Button onPress={openMenu} children={undefined} />}>
           <Menu.Item
-            style={{ ...styles.modalContainer, ...text }}
+            style={{ ...styles.menuItem, text }}
             onPress={() => handleLanguageChange('en')}
             title="English"
           />
           <Divider />
           <Menu.Item
-            style={{ ...styles.modalContainer, ...text }}
+            style={{ ...styles.menuItem, text }}
             onPress={() => handleLanguageChange('ua')}
             title="Українська"
           />
@@ -58,7 +62,7 @@ const LanguageMenu = () => {
 export default LanguageMenu;
 
 const styles = StyleSheet.create({
-  modalContainer: {
-    padding: -10,
+  menuItem: {
+    paddingVertical: -10,
   },
 });
