@@ -8,10 +8,7 @@ import {
   Alert,
   Platform,
   Dimensions,
-<<<<<<< Updated upstream
-=======
   StatusBar,
->>>>>>> Stashed changes
 } from 'react-native';
 import FlatListData from '../components/FlatListData';
 import LINK from '../config';
@@ -56,10 +53,7 @@ const Main = () => {
   return (
     <View style={{ ...styles.container, ...background }}>
       <View style={{ ...styles.header, ...borderBottom }}>
-<<<<<<< Updated upstream
-=======
         <StatusBar />
->>>>>>> Stashed changes
         <Image
           source={{
             uri: LINK,
@@ -111,20 +105,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
     borderBottomWidth: 3,
-<<<<<<< Updated upstream
   },
   headerImage: {
     width: Dimensions.get('window').width,
     height: (Dimensions.get('window').height / 5) * 1.618,
-=======
-    marginVertical: 20,
-  },
-  headerImage: {
-    resizeMode: 'stretch',
-    width: Dimensions.get('window').width,
-    height: (Dimensions.get('window').height / 5) * 1.618,
-    backgroundColor: 'red',
->>>>>>> Stashed changes
   },
   headerText: {
     fontSize: 20,

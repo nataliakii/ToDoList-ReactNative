@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import Main from './screen/Main';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { AppProvider as ContextProvider } from './components/appContext';
@@ -7,8 +7,8 @@ import { ThemeProvider, useThemeMode } from './components/themeContext';
 import { themes } from './palette/themes';
 
 const App = () => {
-  const { mode, isDarkMode } = useThemeMode();
-  const background = themes[mode || 'light'].background.primary;
+  //const { mode } = useThemeMode();
+  //const background = themes[mode || 'light'].background.primary;
 
   return (
     <ThemeProvider>
