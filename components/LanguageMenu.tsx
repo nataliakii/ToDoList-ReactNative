@@ -39,17 +39,26 @@ const LanguageMenu = () => {
       <Button onPress={openMenu}>{str}</Button>
       <Portal>
         <Menu
+          style={styles.menu}
           visible={menuVisible}
           onDismiss={closeMenu}
           anchor={<Button onPress={openMenu} children={undefined} />}>
           <Menu.Item
+<<<<<<< Updated upstream
             style={{ ...styles.menuItem, text }}
+=======
+            style={{ ...styles.menuItem, ...text }}
+>>>>>>> Stashed changes
             onPress={() => handleLanguageChange('en')}
             title="English"
           />
           <Divider />
           <Menu.Item
+<<<<<<< Updated upstream
             style={{ ...styles.menuItem, text }}
+=======
+            style={{ ...styles.menuItem, ...text }}
+>>>>>>> Stashed changes
             onPress={() => handleLanguageChange('ua')}
             title="Українська"
           />
@@ -65,4 +74,8 @@ const styles = StyleSheet.create({
   menuItem: {
     paddingVertical: -10,
   },
+  menu: {
+    top: 60,
+    left: 130,
+  }
 });

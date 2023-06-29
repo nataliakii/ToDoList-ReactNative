@@ -8,16 +8,13 @@ import { themes } from './palette/themes';
 
 const App = () => {
   const { mode, isDarkMode } = useThemeMode();
-  const backgroundColor = themes[mode || 'light'].background.primary;
+  const background = themes[mode || 'light'].background.primary;
 
   return (
     <ThemeProvider>
       <ContextProvider>
         <PaperProvider>
-          <SafeAreaView style={{ ...styles.safeArea, backgroundColor }}>
-            <StatusBar
-              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            />
+          <SafeAreaView style={styles.safeArea}>
             <Main />
           </SafeAreaView>
         </PaperProvider>
