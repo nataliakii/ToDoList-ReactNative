@@ -44,21 +44,14 @@ const LanguageMenu = () => {
           onDismiss={closeMenu}
           anchor={<Button onPress={openMenu} children={undefined} />}>
           <Menu.Item
-<<<<<<< Updated upstream
-            style={{ ...styles.menuItem, text }}
-=======
             style={{ ...styles.menuItem, ...text }}
->>>>>>> Stashed changes
+
             onPress={() => handleLanguageChange('en')}
             title="English"
           />
           <Divider />
           <Menu.Item
-<<<<<<< Updated upstream
-            style={{ ...styles.menuItem, text }}
-=======
             style={{ ...styles.menuItem, ...text }}
->>>>>>> Stashed changes
             onPress={() => handleLanguageChange('ua')}
             title="Українська"
           />
