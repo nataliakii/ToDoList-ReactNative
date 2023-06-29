@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Text,
   TextInput,
@@ -11,9 +11,16 @@ import {
 import Checkbox from './Checkbox';
 import { AppContext } from './appContext';
 import i18n from '../text/i18n';
+import { useThemeMode } from '../components/themeContext';
+import { themes } from '../palette/themes';
 
 const FlatListRender: React.FC = () => {
   const { todoListData, setTodoListData, deleteItem } = useContext(AppContext);
+  const { mode } = useThemeMode();
+  const border = {
+    borderBottomColor: themes[mode || 'light'].border.primary,
+  };
+  const text = { color: themes[mode || 'light'].text.primary };
 
   const [editingItemId, setEditingItemId] = useState(0);
   const [editingItemText, setEditingItemText] = useState('');
@@ -68,11 +75,12 @@ const FlatListRender: React.FC = () => {
       data={todoListData}
       keyExtractor={item => item.id.toString()}
       renderItem={({ item }) => (
-        <View style={styles.taskItem}>
+        <View style={{ ...styles.taskItem, ...border }}>
           <Checkbox handlePress={handleCheckboxPress} item={item} />
-          <View style={styles.textContainer}>
+          <View style={{ ...styles.textContainer, ...text }}>
             {editingItemId === item.id ? (
               <TextInput
+                style={text}
                 value={editingItemText}
                 onChangeText={text => setEditingItemText(text)}
                 onBlur={() => handleEditSave(item.id)}
@@ -81,13 +89,15 @@ const FlatListRender: React.FC = () => {
             ) : (
               <TouchableOpacity
                 onPress={() => handleEditStart(item.id, item.title)}>
-                <Text>{item.title}</Text>
+                <Text style={text}>{item.title}</Text>
               </TouchableOpacity>
             )}
           </View>
           {/* Delete button */}
           <TouchableOpacity onPress={() => handleDelete(item.id, item.title)}>
-            <Text style={styles.delete}>{i18n.t('flat-list.del')}</Text>
+            <Text style={{ ...styles.delete, ...text }}>
+              {i18n.t('flat-list.del')}
+            </Text>
           </TouchableOpacity>
         </View>
       )}

@@ -30,7 +30,7 @@ type AppProviderProps = {
 export const AppContext = createContext<AppContextType>({
   todoListData: [],
   setTodoListData: () => {},
-  number: 0,
+  number: null,
   setNumber: () => {},
   addTodos: () => {},
   deleteItem: () => {},

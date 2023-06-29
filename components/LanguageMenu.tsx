@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Menu, Divider, Button, Portal } from 'react-native-paper';
 import i18n from '../text/i18n';
+import { useThemeMode } from '../components/themeContext';
+import { themes } from '../palette/themes';
 
 const LanguageMenu = () => {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -19,25 +21,31 @@ const LanguageMenu = () => {
     i18n.locale = language;
     closeMenu();
   };
+  const { mode } = useThemeMode();
+  const { buttonStyle } = themes;
 
+  const buttonContainerStyle = {
+    ...buttonStyle,
+    backgroundColor: themes[mode || 'light'].button.primary,
+    color: themes[mode || 'light'].text.primary,
+  };
+  const text = { color: themes[mode || 'light'].text.primary };
   return (
-    <View style={styles.menuBar}>
+    <View style={buttonContainerStyle}>
       <Button onPress={openMenu}>{str}</Button>
-
-      {/* Simple Small Menu */}
       <Portal>
         <Menu
           visible={menuVisible}
           onDismiss={closeMenu}
           anchor={<Button onPress={openMenu} children={undefined} />}>
           <Menu.Item
-            style={styles.modalContainer}
+            style={{ ...styles.modalContainer, ...text }}
             onPress={() => handleLanguageChange('en')}
             title="English"
           />
           <Divider />
           <Menu.Item
-            style={styles.modalContainer}
+            style={{ ...styles.modalContainer, ...text }}
             onPress={() => handleLanguageChange('ua')}
             title="Українська"
           />
@@ -50,13 +58,7 @@ const LanguageMenu = () => {
 export default LanguageMenu;
 
 const styles = StyleSheet.create({
-  menuBar: {
-    backgroundColor: '#ffffff',
-    padding: 3,
-    borderRadius: 100,
-  },
   modalContainer: {
-    backgroundColor: 'white',
     padding: -10,
   },
 });
