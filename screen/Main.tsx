@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Text,
   TextInput,
@@ -9,6 +9,8 @@ import {
   Platform,
   Dimensions,
   StatusBar,
+  Modal,
+  TouchableOpacity,
 } from 'react-native';
 import FlatListData from '../components/FlatListData';
 import LINK from '../config';
@@ -18,36 +20,56 @@ import LanguageMenu from '../components/LanguageMenu';
 import SwitchTheme from '../components/SwitchTheme';
 import { useThemeMode } from '../components/themeContext';
 import { themes } from '../palette/themes';
+const screenDimensions = Dimensions.get('window');
 
 const Main = () => {
-  const { number, setNumber, addTodos } = useContext(AppContext);
+  const { addTask } = useContext(AppContext);
   const { mode, isDarkMode } = useThemeMode();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [taskTitle, setTaskTitle] = useState('');
+
   // Displaying 5 default tasks once on first this component loads
-  useEffect(() => {
-    addTodos(number);
-  }, []);
+  //useEffect(() => {
+  //  addTodos(number);
+  //}, []);
+  const opposideMode = isDarkMode ? 'light' : 'dark';
+  const backgroundModal = {
+    backgroundColor: themes[opposideMode].background.primary,
+  };
 
   const background = {
     backgroundColor: themes[mode || 'light'].background.primary,
   };
-  const border = {
-    borderColor: themes[mode || 'light'].border.primary,
-  };
+  //const border = {
+  //  borderColor: themes[mode || 'light'].border.primary,
+  //};
   const borderBottom = {
     borderBottomColor: themes[mode || 'light'].border.primary,
   };
   const text = { color: themes[mode || 'light'].text.primary };
+  const textModal = { color: themes.dark.button.primary };
 
-  const handleSubmit = () => {
-    if (isNaN(number) || number === 0) {
-      Alert.alert(i18n.t('main.alert1'), i18n.t('main.alert2'));
-    } else {
-      Alert.alert(
-        i18n.t('main.alert3', { number: number }),
-        i18n.t('main.alert5'),
-      );
-      addTodos(number);
+  //const handleSubmit = () => {
+  //  if (isNaN(number) || number === 0) {
+  //    Alert.alert(i18n.t('main.alert1'), i18n.t('main.alert2'));
+  //  } else {
+  //    Alert.alert(
+  //      i18n.t('main.alert3', { number: number }),
+  //      i18n.t('main.alert5'),
+  //    );
+  //    addTodos(number);
+  //  }
+  //};
+
+  const handleAddTask = () => {
+    if (taskTitle.trim() === '') {
+      Alert.alert(i18n.t('main.error1'), i18n.t('main.error2'));
+      return;
     }
+
+    addTask(taskTitle);
+    setModalVisible(false);
+    setTaskTitle('');
   };
 
   return (
@@ -65,7 +87,7 @@ const Main = () => {
           <LanguageMenu />
           <SwitchTheme />
         </View>
-        <Text style={{ ...styles.headerText, ...borderBottom, ...text }}>
+        {/*<Text style={{ ...styles.headerText, ...borderBottom, ...text }}>
           {i18n.t('main.header')}
         </Text>
         <TextInput
@@ -76,9 +98,39 @@ const Main = () => {
           onBlur={() => handleSubmit()}
           autoFocus
           clearTextOnFocus
-        />
+        />*/}
+        <TouchableOpacity
+          style={{ ...styles.headerText, ...borderBottom, ...text }}
+          onPress={() => setModalVisible(true)}>
+          <Text style={{ ...styles.input, ...backgroundModal, ...textModal }}>
+            {' '}
+            +{i18n.t('main.add')}{' '}
+          </Text>
+        </TouchableOpacity>
       </View>
       <FlatListData />
+      <Modal visible={modalVisible} animationType="slide" transparent={true}>
+        <View style={styles.modalContainer}>
+          <View
+            style={{
+              ...styles.modalContent,
+              ...backgroundModal,
+            }}>
+            <TextInput
+              style={{ ...styles.modalInput, ...textModal }}
+              value={taskTitle}
+              placeholder={i18n.t('main.placeholder2')}
+              onChangeText={setTaskTitle}
+            />
+            <TouchableOpacity onPress={handleAddTask}>
+              <Text style={textModal}>{i18n.t('main.add')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+              <Text style={textModal}>{i18n.t('main.cancel')}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -92,14 +144,15 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 30,
-    width: 200,
+    width: 250,
     margin: 6,
-    paddingHorizontal: 20,
+    padding: 20,
     paddingVertical: Platform.select({
       ios: 0,
       android: 0,
     }),
-    borderWidth: 1,
+    textAlign: 'center',
+    fontSize: 20,
   },
   header: {
     alignItems: 'center',
@@ -107,8 +160,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
   },
   headerImage: {
-    width: Dimensions.get('window').width,
-    height: (Dimensions.get('window').height / 5) * 1.618,
+    width: screenDimensions.width,
+    height: (screenDimensions.height / 5) * 1.618,
   },
   headerText: {
     fontSize: 20,
@@ -119,5 +172,26 @@ const styles = StyleSheet.create({
     top: 10,
     left: 10,
     zIndex: 1,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    width: screenDimensions.width * 0.8,
+    height: (screenDimensions.height / 9) * 1.618,
+    borderRadius: 4,
+    padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalInput: {
+    width: '100%',
+    height: screenDimensions.height / 17,
+    borderWidth: 1,
+    borderRadius: 4,
+    marginBottom: 10,
+    paddingHorizontal: 10,
   },
 });

@@ -45,7 +45,6 @@ const LanguageMenu = () => {
           anchor={<Button onPress={openMenu} children={undefined} />}>
           <Menu.Item
             style={{ ...styles.menuItem, ...text }}
-
             onPress={() => handleLanguageChange('en')}
             title="English"
           />
@@ -70,5 +69,5 @@ const styles = StyleSheet.create({
   menu: {
     top: 60,
     left: 130,
-  }
+  },
 });

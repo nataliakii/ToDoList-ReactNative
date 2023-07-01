@@ -6,8 +6,12 @@
       "alert5": "Congrads!!!",
       "task": "Task number ",
       "header": "Type-in number of tasks",
-      "placeholder" :"This input is for number"
-
+      "placeholder" :"This input is for number",
+      "placeholder2":"Enter task title",
+      "add": "Add Task",
+      "cancel":"Cancel",
+      "error1":"Invalid Task Title",
+      "error2":"Please enter a valid title for the task."
     },
     "flat-list": {
         "alert1": "Delete Task?",

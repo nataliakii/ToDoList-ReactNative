@@ -21,6 +21,7 @@ type AppContextType = {
   setNumber: Dispatch<SetStateAction<any>>;
   addTodos: (num: number) => void;
   deleteItem: (id: number) => void;
+  addTask: (title: string) => void;
 };
 
 type AppProviderProps = {
@@ -34,14 +35,15 @@ export const AppContext = createContext<AppContextType>({
   setNumber: () => {},
   addTodos: () => {},
   deleteItem: () => {},
+  addTask: () => {},
 });
 
 // Create the provider component
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [todoListData, setTodoListData] = useState<ItemType[]>([]);
-  const [number, setNumber] = useState(5);
+  const [number, setNumber] = useState(0);
 
-  //function that creates a new todo list according to the user's input
+  // Function that creates a new todo list according to the user's input
   const addTodos = (num: number) => {
     const newData = [];
     for (let i = 0; i < num; i++) {
@@ -52,7 +54,17 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       };
       newData.push(obj);
     }
-    return setTodoListData(newData);
+    setTodoListData(newData);
+  };
+
+  // Function to add a new task to the todo list
+  const addTask = (title: string) => {
+    const newTask = {
+      id: todoListData.length + 1,
+      title: title,
+      done: false,
+    };
+    setTodoListData([...todoListData, newTask]);
   };
 
   const deleteItem = (id: number) => {
@@ -69,6 +81,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         setNumber,
         addTodos,
         deleteItem,
+        addTask,
       }}>
       {children}
     </AppContext.Provider>
