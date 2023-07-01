@@ -6,7 +6,6 @@ import {
   Image,
   StyleSheet,
   Alert,
-  Platform,
   Dimensions,
   StatusBar,
   Modal,
@@ -28,10 +27,6 @@ const Main = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [taskTitle, setTaskTitle] = useState('');
 
-  // Displaying 5 default tasks once on first this component loads
-  //useEffect(() => {
-  //  addTodos(number);
-  //}, []);
   const opposideMode = isDarkMode ? 'light' : 'dark';
   const backgroundModal = {
     backgroundColor: themes[opposideMode].background.primary,
@@ -40,14 +35,11 @@ const Main = () => {
   const background = {
     backgroundColor: themes[mode || 'light'].background.primary,
   };
-  //const border = {
-  //  borderColor: themes[mode || 'light'].border.primary,
-  //};
   const borderBottom = {
     borderBottomColor: themes[mode || 'light'].border.primary,
   };
-  const text = { color: themes[mode || 'light'].text.primary };
-  const textModal = { color: themes.dark.button.primary };
+  const text = { color: themes[mode || 'light']?.text.primary };
+  const textModal = { color: themes[opposideMode].button.primary };
 
   //const handleSubmit = () => {
   //  if (isNaN(number) || number === 0) {
@@ -66,7 +58,6 @@ const Main = () => {
       Alert.alert(i18n.t('main.error1'), i18n.t('main.error2'));
       return;
     }
-
     addTask(taskTitle);
     setModalVisible(false);
     setTaskTitle('');
@@ -140,17 +131,12 @@ export default Main;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   input: {
     height: 30,
     width: 250,
     margin: 6,
-    padding: 20,
-    paddingVertical: Platform.select({
-      ios: 0,
-      android: 0,
-    }),
+    padding: 2,
     textAlign: 'center',
     fontSize: 20,
   },

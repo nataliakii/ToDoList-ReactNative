@@ -22,7 +22,7 @@ const SwitchTheme = () => {
 
   return (
     <View style={buttonContainerStyle}>
-      <Text style={{ ...styles.buttonText, ...text }}>{buttonTitle}</Text>
+      <Text style={{ ...styles.buttonText, ...text}}>{buttonTitle}</Text>
       <Switch
         value={isDarkMode}
         onValueChange={handleSwitchToggle}

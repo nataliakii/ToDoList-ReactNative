@@ -6,7 +6,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { Appearance, ColorSchemeName, Alert } from 'react-native';
+import { Appearance, ColorSchemeName } from 'react-native';
 
 interface ThemeContextProps {
   mode: ColorSchemeName;
@@ -27,10 +27,11 @@ type ThemeContextProviderProps = {
 export const ThemeProvider = ({
   children,
 }: ThemeContextProviderProps): ReactElement => {
-  const [mode, setMode] = useState<ColorSchemeName>(
-    Appearance.getColorScheme(),
+  const initialAppearance = Appearance.getColorScheme() || 'light';
+  const [mode, setMode] = useState<ColorSchemeName>(initialAppearance);
+  const [isDarkMode, setDarkMode] = useState<boolean>(
+    initialAppearance === 'dark',
   );
-  const [isDarkMode, setDarkMode] = useState<boolean>(mode === 'dark');
 
   const toggleMode = (appearance: ColorSchemeName): void => {
     setMode(appearance);
