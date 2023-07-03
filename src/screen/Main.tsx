@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import {
-  Text,
   TextInput,
   View,
   Image,
@@ -9,7 +8,6 @@ import {
   Dimensions,
   StatusBar,
   Modal,
-  TouchableOpacity,
   ViewStyle,
   TextStyle,
 } from 'react-native';
@@ -21,6 +19,7 @@ import LanguageMenu from '../components/LanguageMenu';
 import SwitchTheme from '../components/SwitchTheme';
 import { useThemeMode } from '../context/themeContext';
 import { themes } from '../palette/themes';
+import CustomTouchButton from '../components/CustomTouchButton';
 const screenDimensions = Dimensions.get('window');
 
 const Main = () => {
@@ -68,14 +67,13 @@ const Main = () => {
           <LanguageMenu />
           <SwitchTheme />
         </View>
-        <TouchableOpacity
-          style={{ ...styles.headerText, ...borderBottom, ...text }}
-          onPress={() => setModalVisible(true)}>
-          <Text style={{ ...styles.input, ...backgroundModal, ...textModal }}>
-            {' '}
-            +{i18n.t('main.add')}{' '}
-          </Text>
-        </TouchableOpacity>
+
+        <CustomTouchButton
+          style1={{ ...styles.headerText, ...borderBottom, ...text }}
+          onPress={() => setModalVisible(true)}
+          style2={{ ...styles.input, ...backgroundModal, ...textModal }}
+          title={i18n.t('main.add')}
+        />
       </View>
       <FlatListData />
       <Modal visible={modalVisible} animationType="slide" transparent={true}>
@@ -91,12 +89,16 @@ const Main = () => {
               placeholder={i18n.t('main.placeholder2')}
               onChangeText={setTaskTitle}
             />
-            <TouchableOpacity onPress={handleAddTask}>
-              <Text style={textModal}>{i18n.t('main.add')}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Text style={textModal}>{i18n.t('main.cancel')}</Text>
-            </TouchableOpacity>
+            <CustomTouchButton
+              onPress={handleAddTask}
+              style2={textModal}
+              title={i18n.t('main.add')}
+            />
+            <CustomTouchButton
+              onPress={() => setModalVisible(false)}
+              style2={textModal}
+              title={i18n.t('main.cancel')}
+            />
           </View>
         </View>
       </Modal>

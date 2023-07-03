@@ -1,11 +1,9 @@
 import React, { useState, useContext } from 'react';
 import {
-  Text,
   TextInput,
   View,
   FlatList,
   StyleSheet,
-  TouchableOpacity,
   Alert,
   TextStyle,
   ViewStyle,
@@ -15,6 +13,7 @@ import { AppContext } from '../context/appContext';
 import i18n from '../translations/i18n';
 import { useThemeMode } from '../context/themeContext';
 import { themes } from '../palette/themes';
+import CustomTouchButton from './CustomTouchButton';
 
 const FlatListRender: React.FC = () => {
   const { todoListData, setTodoListData, deleteItem } = useContext(AppContext);
@@ -89,18 +88,18 @@ const FlatListRender: React.FC = () => {
                 autoFocus
               />
             ) : (
-              <TouchableOpacity
-                onPress={() => handleEditStart(item.id, item.title)}>
-                <Text style={text}>{item.title}</Text>
-              </TouchableOpacity>
+              <CustomTouchButton
+                onPress={() => handleEditStart(item.id, item.title)}
+                title={item.title}
+                style2={text}
+              />
             )}
           </View>
-          {/* Delete button */}
-          <TouchableOpacity onPress={() => handleDelete(item.id, item.title)}>
-            <Text style={{ ...styles.delete, ...text }}>
-              {i18n.t('flat-list.del')}
-            </Text>
-          </TouchableOpacity>
+          <CustomTouchButton
+            onPress={() => handleDelete(item.id, item.title)}
+            title={i18n.t('flat-list.del')}
+            style2={{ ...styles.delete, ...text }}
+          />
         </View>
       )}
     />
