@@ -6,7 +6,7 @@ import React, {
   ReactNode,
 } from 'react';
 import _ from 'lodash';
-import i18n from '../text/i18n';
+import i18n from '../translations/i18n';
 
 type ItemType = {
   id: number;

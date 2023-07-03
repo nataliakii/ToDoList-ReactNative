@@ -1,28 +1,25 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, ViewStyle, TextStyle } from 'react-native';
 import { Switch } from 'react-native-paper';
-import { useThemeMode } from '../components/themeContext';
+import { useThemeMode } from '../context/themeContext';
 import { themes } from '../palette/themes';
 
 const SwitchTheme = () => {
   const { mode, toggleMode, isDarkMode } = useThemeMode();
   const buttonTitle = isDarkMode ? 'DarkMode ON' : 'DarkMode OFF';
-  const { buttonStyle } = themes;
-  const buttonContainerStyle = {
+  //const { buttonStyle } = themes;
+  const buttonContainerStyle: ViewStyle = {
     ...styles.switchContainer,
-    ...buttonStyle,
     backgroundColor: themes[mode || 'light'].button.primary,
-    color: themes[mode || 'light'].text.primary,
   };
-  const text = { color: themes[mode || 'light'].text.primary };
-
+  const text: TextStyle = { color: themes[mode || 'light'].text.secondary };
   const handleSwitchToggle = () => {
     toggleMode(isDarkMode ? 'light' : 'dark');
   };
 
   return (
     <View style={buttonContainerStyle}>
-      <Text style={{ ...styles.buttonText, ...text}}>{buttonTitle}</Text>
+      <Text style={{ ...styles.buttonText, ...text }}>{buttonTitle}</Text>
       <Switch
         value={isDarkMode}
         onValueChange={handleSwitchToggle}
@@ -37,9 +34,11 @@ export default SwitchTheme;
 const styles = StyleSheet.create({
   switchContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
     marginVertical: 10,
+    padding: 3,
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonText: {
     marginRight: 0,

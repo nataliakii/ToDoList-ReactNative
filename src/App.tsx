@@ -2,14 +2,10 @@ import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import Main from './screen/Main';
 import { Provider as PaperProvider } from 'react-native-paper';
-import { AppProvider as ContextProvider } from './components/appContext';
-import { ThemeProvider, useThemeMode } from './components/themeContext';
-import { themes } from './palette/themes';
+import { AppProvider as ContextProvider } from './context/appContext';
+import { ThemeProvider } from './context/themeContext';
 
 const App = () => {
-  //const { mode } = useThemeMode();
-  //const background = themes[mode || 'light'].background.primary;
-
   return (
     <ThemeProvider>
       <ContextProvider>

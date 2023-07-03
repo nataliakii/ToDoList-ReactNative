@@ -7,20 +7,22 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  TextStyle,
+  ViewStyle,
 } from 'react-native';
 import Checkbox from './Checkbox';
-import { AppContext } from './appContext';
-import i18n from '../text/i18n';
-import { useThemeMode } from '../components/themeContext';
+import { AppContext } from '../context/appContext';
+import i18n from '../translations/i18n';
+import { useThemeMode } from '../context/themeContext';
 import { themes } from '../palette/themes';
 
 const FlatListRender: React.FC = () => {
   const { todoListData, setTodoListData, deleteItem } = useContext(AppContext);
   const { mode } = useThemeMode();
-  const border = {
+  const border: ViewStyle = {
     borderBottomColor: themes[mode || 'light'].border.primary,
   };
-  const text = { color: themes[mode || 'light'].text.primary };
+  const text: TextStyle = { color: themes[mode || 'light'].text.primary };
 
   const [editingItemId, setEditingItemId] = useState(0);
   const [editingItemText, setEditingItemText] = useState('');

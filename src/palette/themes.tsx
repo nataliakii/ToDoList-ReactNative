@@ -9,30 +9,32 @@ export const themes = {
   },
   dark: {
     button: {
-      primary: palette.button.dark,
+      primary: palette.summerGreen,
     },
     text: {
-      primary: palette.text.dark,
+      primary: palette.white,
+      secondary: palette.white,
     },
     background: {
-      primary: palette.background.dark,
+      primary: palette.summerGreen,
     },
     border: {
-      primary: palette.background.light,
+      primary: palette.white,
     },
   },
   light: {
     button: {
-      primary: palette.button.light,
+      primary: palette.redViolet,
     },
     text: {
-      primary: palette.text.light,
+      primary: palette.redViolet,
+      secondary: palette.white,
     },
     background: {
-      primary: palette.background.light,
+      primary: palette.white,
     },
     border: {
-      primary: palette.background.dark,
+      primary: palette.summerGreen,
     },
   },
 };

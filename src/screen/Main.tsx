@@ -10,14 +10,16 @@ import {
   StatusBar,
   Modal,
   TouchableOpacity,
+  ViewStyle,
+  TextStyle,
 } from 'react-native';
 import FlatListData from '../components/FlatListData';
-import LINK from '../config';
-import { AppContext } from '../components/appContext';
-import i18n from '../text/i18n';
+import LINK from '../../config';
+import { AppContext } from '../context/appContext';
+import i18n from '../translations/i18n';
 import LanguageMenu from '../components/LanguageMenu';
 import SwitchTheme from '../components/SwitchTheme';
-import { useThemeMode } from '../components/themeContext';
+import { useThemeMode } from '../context/themeContext';
 import { themes } from '../palette/themes';
 const screenDimensions = Dimensions.get('window');
 
@@ -28,30 +30,18 @@ const Main = () => {
   const [taskTitle, setTaskTitle] = useState('');
 
   const opposideMode = isDarkMode ? 'light' : 'dark';
-  const backgroundModal = {
+  const backgroundModal: ViewStyle = {
     backgroundColor: themes[opposideMode].background.primary,
   };
 
-  const background = {
+  const background: ViewStyle = {
     backgroundColor: themes[mode || 'light'].background.primary,
   };
-  const borderBottom = {
+  const borderBottom: ViewStyle = {
     borderBottomColor: themes[mode || 'light'].border.primary,
   };
-  const text = { color: themes[mode || 'light']?.text.primary };
-  const textModal = { color: themes[opposideMode].button.primary };
-
-  //const handleSubmit = () => {
-  //  if (isNaN(number) || number === 0) {
-  //    Alert.alert(i18n.t('main.alert1'), i18n.t('main.alert2'));
-  //  } else {
-  //    Alert.alert(
-  //      i18n.t('main.alert3', { number: number }),
-  //      i18n.t('main.alert5'),
-  //    );
-  //    addTodos(number);
-  //  }
-  //};
+  const text: TextStyle = { color: themes[mode || 'light']?.text.primary };
+  const textModal: TextStyle = { color: themes[opposideMode].text.primary };
 
   const handleAddTask = () => {
     if (taskTitle.trim() === '') {
@@ -78,18 +68,6 @@ const Main = () => {
           <LanguageMenu />
           <SwitchTheme />
         </View>
-        {/*<Text style={{ ...styles.headerText, ...borderBottom, ...text }}>
-          {i18n.t('main.header')}
-        </Text>
-        <TextInput
-          style={{ ...styles.input, ...border }}
-          value={number}
-          placeholder={i18n.t('main.placeholder')}
-          onChangeText={newNum => setNumber(Number(newNum))}
-          onBlur={() => handleSubmit()}
-          autoFocus
-          clearTextOnFocus
-        />*/}
         <TouchableOpacity
           style={{ ...styles.headerText, ...borderBottom, ...text }}
           onPress={() => setModalVisible(true)}>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { Menu, Divider, Button, Portal } from 'react-native-paper';
-import i18n from '../text/i18n';
-import { useThemeMode } from '../components/themeContext';
+import i18n from '../translations/i18n';
+import { useThemeMode } from '../context/themeContext';
 import { themes } from '../palette/themes';
 
 const LanguageMenu = () => {
@@ -25,17 +25,14 @@ const LanguageMenu = () => {
   const { mode } = useThemeMode();
   const { buttonStyle } = themes;
 
-  const buttonContainerStyle = {
+  const buttonContainerStyle: ViewStyle = {
     ...buttonStyle,
     backgroundColor: themes[mode || 'light'].button.primary,
-    color: themes[mode || 'light'].text.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
   };
-  const text = { color: themes[mode || 'light'].text.primary };
+  const text: TextStyle = { color: themes[mode || 'light'].text.primary };
 
   return (
-    <View style={buttonContainerStyle}>
+    <View style={{ ...buttonContainerStyle, ...text }}>
       <Button onPress={openMenu}>{str}</Button>
       <Portal>
         <Menu
