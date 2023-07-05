@@ -111,7 +111,7 @@ const Main = ({ navigation }) => {
               title={i18n.t('main.add')}
             />
             <CustomTouchButton
-              onPress={() => setModalVisible( false )}
+              onPress={() => setModalVisible(false)}
               style2={textModal}
               title={i18n.t('main.cancel')}
             />

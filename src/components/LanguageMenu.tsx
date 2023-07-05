@@ -5,10 +5,12 @@ import i18n from '../translations/i18n';
 import { useThemeMode } from '../context/themeContext';
 import { themes } from '../palette/themes';
 import CustomTouchButton from '../components/CustomTouchButton';
+import { useNavigation, useNavigationState } from '@react-navigation/native';
 
 const LanguageMenu = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [language, setLanguage] = useState(i18n.locale);
+  const navigation = useNavigation();
   let title = language == 'en' ? 'English' : 'Українська';
 
   const openMenu = () => {
@@ -18,16 +20,20 @@ const LanguageMenu = () => {
   const closeMenu = () => {
     setMenuVisible(false);
   };
+  const navState = useNavigationState(state => state);
+  console.log(navState);
 
   const handleLanguageChange = (language: string) => {
     setLanguage(language);
     i18n.locale = language;
     closeMenu();
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Main' }],
+    });
   };
-
   const { mode } = useThemeMode();
   const { buttonStyle } = themes;
-
   const buttonContainerStyle: ViewStyle = {
     ...buttonStyle,
     backgroundColor: themes[mode || 'light'].button.primary,
