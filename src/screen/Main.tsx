@@ -15,22 +15,26 @@ import FlatListData from '../components/FlatListData';
 import LINK from '../../config';
 import { AppContext } from '../context/appContext';
 import i18n from '../translations/i18n';
-import LanguageMenu from '../components/LanguageMenu';
-import SwitchTheme from '../components/SwitchTheme';
 import { useThemeMode } from '../context/themeContext';
 import { themes } from '../palette/themes';
 import CustomTouchButton from '../components/CustomTouchButton';
+
 const screenDimensions = Dimensions.get('window');
 
-const Main = () => {
+const Main = ({navigation}) => {
   const { addTask } = useContext(AppContext);
   const { mode, isDarkMode } = useThemeMode();
   const [modalVisible, setModalVisible] = useState(false);
   const [taskTitle, setTaskTitle] = useState('');
+  const { buttonStyle } = themes;
 
   const opposideMode = isDarkMode ? 'light' : 'dark';
   const backgroundModal: ViewStyle = {
     backgroundColor: themes[opposideMode].background.primary,
+  };
+  const buttonContainerStyle: ViewStyle = {
+    ...buttonStyle,
+    backgroundColor: themes[mode || 'light'].button.primary,
   };
 
   const background: ViewStyle = {
@@ -39,8 +43,8 @@ const Main = () => {
   const borderBottom: ViewStyle = {
     borderBottomColor: themes[mode || 'light'].border.primary,
   };
-  const text: TextStyle = { color: themes[mode || 'light']?.text.primary };
-  const textModal: TextStyle = { color: themes[opposideMode].text.primary };
+  const text: TextStyle = { color: themes[mode || 'light']?.text.primary, fontSize: themes.  textSize.medium };
+  const textModal: TextStyle = { color: themes[opposideMode].text.primary, fontSize: themes.  textSize.medium  };
 
   const handleAddTask = () => {
     if (taskTitle.trim() === '') {
@@ -50,6 +54,10 @@ const Main = () => {
     addTask(taskTitle);
     setModalVisible(false);
     setTaskTitle('');
+  };
+
+  const goToSettings = () => {
+    navigation.navigate('Settings');
   };
 
   return (
@@ -63,15 +71,17 @@ const Main = () => {
           style={styles.headerImage}
           onError={err => console.log(err)}
         />
-        <View style={styles.languageMenuContainer}>
-          <LanguageMenu />
-          <SwitchTheme />
-        </View>
+        <CustomTouchButton
+          onPress={goToSettings}
+          title={i18n.t('main.settings')}
+          style1={{ ...styles.languageMenuContainer, ...buttonContainerStyle }}
+          style2={{...textModal, fontSize: themes.textSize.small}}
+        />
 
         <CustomTouchButton
           style1={{ ...styles.headerText, ...borderBottom, ...text }}
           onPress={() => setModalVisible(true)}
-          style2={{ ...styles.input, ...backgroundModal, ...textModal }}
+          style2={{ ...styles.input, ...backgroundModal, ...textModal, }}
           title={i18n.t('main.add')}
         />
       </View>
@@ -113,12 +123,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   input: {
-    height: 30,
-    width: 250,
-    margin: 6,
-    padding: 2,
+    height: 50,
+    width: screenDimensions.width,
+    margin: 3,
+    padding: 8,
     textAlign: 'center',
-    fontSize: 20,
+    alignItems: 'center',
   },
   header: {
     alignItems: 'center',
@@ -130,13 +140,12 @@ const styles = StyleSheet.create({
     height: (screenDimensions.height / 5) * 1.618,
   },
   headerText: {
-    fontSize: 20,
-    marginTop: 10,
+    marginTop: 5,
   },
   languageMenuContainer: {
     position: 'absolute',
     top: 10,
-    left: 10,
+    right: 10,
     zIndex: 1,
   },
   modalContainer: {

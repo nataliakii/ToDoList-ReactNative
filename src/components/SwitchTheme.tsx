@@ -12,7 +12,10 @@ const SwitchTheme = () => {
     ...styles.switchContainer,
     backgroundColor: themes[mode || 'light'].button.primary,
   };
-  const text: TextStyle = { color: themes[mode || 'light'].text.secondary };
+  const text: TextStyle = {
+    color: themes[mode || 'light'].text.secondary,
+    fontSize: themes.textSize.medium,
+  };
   const handleSwitchToggle = () => {
     toggleMode(isDarkMode ? 'light' : 'dark');
   };

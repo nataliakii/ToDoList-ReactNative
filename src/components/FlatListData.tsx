@@ -21,7 +21,10 @@ const FlatListRender: React.FC = () => {
   const border: ViewStyle = {
     borderBottomColor: themes[mode || 'light'].border.primary,
   };
-  const text: TextStyle = { color: themes[mode || 'light'].text.primary };
+  const text: TextStyle = {
+    color: themes[mode || 'light'].text.primary,
+    fontSize: themes.textSize.small,
+  };
 
   const [editingItemId, setEditingItemId] = useState(0);
   const [editingItemText, setEditingItemText] = useState('');

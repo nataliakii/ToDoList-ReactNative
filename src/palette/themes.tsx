@@ -2,10 +2,16 @@ import { palette } from './palette';
 
 export const themes = {
   buttonStyle: {
-    padding: 3,
+    padding: 20,
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  textSize: {
+    big: 40,
+    medium: 26,
+    small: 19,
+    xs: 12,
   },
   dark: {
     button: {

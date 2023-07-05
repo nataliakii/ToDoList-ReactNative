@@ -4,9 +4,11 @@ import React, {
   Dispatch,
   SetStateAction,
   ReactNode,
+  useEffect
 } from 'react';
 import _ from 'lodash';
 import i18n from '../translations/i18n';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type ItemType = {
   id: number;
@@ -41,7 +43,38 @@ export const AppContext = createContext<AppContextType>({
 // Create the provider component
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [todoListData, setTodoListData] = useState<ItemType[]>([]);
-  const [number, setNumber] = useState(0);
+  const [ number, setNumber ]=useState( 0 );
+  
+  useEffect(() => {
+    // Load the stored todoListData from AsyncStorage
+    const loadTodoListData = async () => {
+      try {
+        const storedData = await AsyncStorage.getItem('todoListData');
+        if (storedData) {
+          const parsedData = JSON.parse(storedData);
+          setTodoListData(parsedData);
+        }
+      } catch (error) {
+        console.log('Error loading todoListData from AsyncStorage:', error);
+      }
+    };
+
+    loadTodoListData();
+  }, []);
+
+  useEffect(() => {
+    // Save the updated todoListData to AsyncStorage whenever it changes
+    const saveTodoListData = async () => {
+      try {
+        const stringifiedData = JSON.stringify(todoListData);
+        await AsyncStorage.setItem('todoListData', stringifiedData);
+      } catch (error) {
+        console.log('Error saving todoListData to AsyncStorage:', error);
+      }
+    };
+
+    saveTodoListData();
+  }, [todoListData]);
 
   // Function that creates a new todo list according to the user's input
   const addTodos = (num: number) => {

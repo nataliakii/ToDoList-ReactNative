@@ -11,7 +11,9 @@
       "add": "Add Task",
       "cancel":"Cancel",
       "error1":"Invalid Task Title",
-      "error2":"Please enter a valid title for the task."
+      "error2":"Please enter a valid title for the task.",
+      "settings": "Settings",
+      "setPage": "Settings Page"
     },
     "flat-list": {
         "alert1": "Delete Task?",
@@ -20,5 +22,10 @@
         "alert4": "Yes",
         "del": "Delete"
      
+    },
+    "settings": {
+      "lang": "Set language of the app",
+      "theme":"Set colors theme"
+
     }
 }
