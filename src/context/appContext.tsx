@@ -4,7 +4,7 @@ import React, {
   Dispatch,
   SetStateAction,
   ReactNode,
-  useEffect
+  useEffect,
 } from 'react';
 import _ from 'lodash';
 import i18n from '../translations/i18n';
@@ -43,8 +43,8 @@ export const AppContext = createContext<AppContextType>({
 // Create the provider component
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [todoListData, setTodoListData] = useState<ItemType[]>([]);
-  const [ number, setNumber ]=useState( 0 );
-  
+  const [number, setNumber] = useState(0);
+
   useEffect(() => {
     // Load the stored todoListData from AsyncStorage
     const loadTodoListData = async () => {

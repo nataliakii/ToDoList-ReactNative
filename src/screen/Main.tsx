@@ -21,7 +21,7 @@ import CustomTouchButton from '../components/CustomTouchButton';
 
 const screenDimensions = Dimensions.get('window');
 
-const Main = ({navigation}) => {
+const Main = ({ navigation }) => {
   const { addTask } = useContext(AppContext);
   const { mode, isDarkMode } = useThemeMode();
   const [modalVisible, setModalVisible] = useState(false);
@@ -43,8 +43,14 @@ const Main = ({navigation}) => {
   const borderBottom: ViewStyle = {
     borderBottomColor: themes[mode || 'light'].border.primary,
   };
-  const text: TextStyle = { color: themes[mode || 'light']?.text.primary, fontSize: themes.  textSize.medium };
-  const textModal: TextStyle = { color: themes[opposideMode].text.primary, fontSize: themes.  textSize.medium  };
+  const text: TextStyle = {
+    color: themes[mode || 'light']?.text.primary,
+    fontSize: themes.textSize.medium,
+  };
+  const textModal: TextStyle = {
+    color: themes[opposideMode].text.primary,
+    fontSize: themes.textSize.medium,
+  };
 
   const handleAddTask = () => {
     if (taskTitle.trim() === '') {
@@ -75,13 +81,13 @@ const Main = ({navigation}) => {
           onPress={goToSettings}
           title={i18n.t('main.settings')}
           style1={{ ...styles.languageMenuContainer, ...buttonContainerStyle }}
-          style2={{...textModal, fontSize: themes.textSize.small}}
+          style2={{ ...textModal, fontSize: themes.textSize.small }}
         />
 
         <CustomTouchButton
           style1={{ ...styles.headerText, ...borderBottom, ...text }}
           onPress={() => setModalVisible(true)}
-          style2={{ ...styles.input, ...backgroundModal, ...textModal, }}
+          style2={{ ...styles.input, ...backgroundModal, ...textModal }}
           title={i18n.t('main.add')}
         />
       </View>

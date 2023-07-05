@@ -14,6 +14,7 @@ import i18n from '../translations/i18n';
 import { useThemeMode } from '../context/themeContext';
 import { themes } from '../palette/themes';
 import CustomTouchButton from './CustomTouchButton';
+import CustomIconButton from './CustomIconButton';
 
 const FlatListRender: React.FC = () => {
   const { todoListData, setTodoListData, deleteItem } = useContext(AppContext);
@@ -98,10 +99,14 @@ const FlatListRender: React.FC = () => {
               />
             )}
           </View>
-          <CustomTouchButton
+          <CustomIconButton
+            onPress={() => handleEditStart(item.id, item.title)}
+            iconSource={require('../assets/pen.png')}
+            style={styles.icon}
+          />
+          <CustomIconButton
             onPress={() => handleDelete(item.id, item.title)}
-            title={i18n.t('flat-list.del')}
-            style2={{ ...styles.delete, ...text }}
+            iconSource={require('../assets/bin1.png')}
           />
         </View>
       )}
@@ -127,5 +132,8 @@ const styles = StyleSheet.create({
   delete: {
     color: 'grey',
     fontSize: 13,
+  },
+  icon: {
+    marginRight: 10,
   },
 });
