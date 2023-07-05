@@ -111,7 +111,7 @@ const Main = ({ navigation }) => {
               title={i18n.t('main.add')}
             />
             <CustomTouchButton
-              onPress={() => setModalVisible(false)}
+              onPress={() => setModalVisible( false )}
               style2={textModal}
               title={i18n.t('main.cancel')}
             />
@@ -161,9 +161,9 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: screenDimensions.width * 0.8,
-    height: (screenDimensions.height / 9) * 1.618,
+    height: (screenDimensions.height / 7) * 1.618,
     borderRadius: 4,
-    padding: 16,
+    padding: 26,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     height: screenDimensions.height / 17,
     borderWidth: 1,
     borderRadius: 4,
-    marginBottom: 10,
-    paddingHorizontal: 10,
+    margin: 10,
+    padding: 5,
   },
 });

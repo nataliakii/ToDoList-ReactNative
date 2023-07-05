@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
   },
   switch: {
-    transform: [{ scale: 0.7 }],
+    transform: [{ scale: 1.1 }],
     paddingVertical: 7,
     paddingHorizontal: 10,
   },
