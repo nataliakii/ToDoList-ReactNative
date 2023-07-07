@@ -50,8 +50,8 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
       setToken(await AsyncStorage.getItem(TOKEN_STORAGE_KEY));
       navigation.navigate('Main');
     } catch (error) {
-      console.log('Error signing in:', error.response.data);
-      setError(error.response.data.errors[0].msg);
+      console.log('Error signing up:', error?.response?.data);
+      setError(error?.response?.data?.errors[0].msg);
     }
   };
 
@@ -74,7 +74,7 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
           onChangeText={setPassword}
           secureTextEntry
         />
-         {error && <Text style={styles.errorText}>{error}</Text>}
+        {error && <Text style={styles.errorText}>{error}</Text>}
         <CustomTouchButton
           onPress={handleSignUp}
           title={i18n.t('signin.signupPage')}

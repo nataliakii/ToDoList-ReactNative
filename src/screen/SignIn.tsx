@@ -23,10 +23,10 @@ type SignInProps = {
 
 const SignIn: React.FC<SignInProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
-  const [ password, setPassword ]=useState( '' );
+  const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const { setToken } = useContext(AppContext);
-  const { mode} = useThemeMode();
+  const { mode } = useThemeMode();
   const background: ViewStyle = {
     backgroundColor: themes[mode || 'light'].background.primary,
   };
@@ -50,8 +50,8 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
       setToken(await AsyncStorage.getItem(TOKEN_STORAGE_KEY));
       navigation.navigate('Main');
     } catch (error) {
-      console.log( 'Error signing in:', error.response.data );
-      setError(error.response.data.errors[0].msg);
+      console.log('Error signing in:', error?.response?.data);
+      setError(error?.response?.data?.errors[0].msg);
     }
   };
 
@@ -77,7 +77,7 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
         {error && <Text style={styles.errorText}>{error}</Text>}
         <CustomTouchButton
           onPress={handleLogin}
-          title= {i18n.t('signin.signinPage')}
+          title={i18n.t('signin.signinPage')}
           style1={{ ...buttonContainerStyle, ...styles.padding }}
           style2={text}
         />

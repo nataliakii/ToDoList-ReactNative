@@ -48,9 +48,8 @@ export const AppContext = createContext<AppContextType>({
 // Create the provider component
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [todoListData, setTodoListData] = useState<ItemType[]>([]);
-  const [ number, setNumber ]=useState( 0 );
-  const [ token, setToken ]=useState<string|null>( null );
-  
+  const [number, setNumber] = useState(0);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     // Load the stored token from AsyncStorage

@@ -43,10 +43,10 @@ exports.signUp = async (req, res) => {
     // Generate JWT token
     const token = jwt.encode({ userId: user.id }, secretKey);
 
-    res.status(200).send({ token });
+    return res.status(200).send({ token });
   } catch (error) {
     console.error(error);
-    res.status(500).send({ errors: [{ msg: 'Server error' }] });
+    return res.status(500).send({ errors: [{ msg: 'Server error' }] });
   }
 };
 
@@ -64,7 +64,9 @@ exports.signIn = async function (req, res) {
     // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(403).send({ errors: [{ msg: 'User with htis emain already exists' }] });
+      return res
+        .status(403)
+        .send({ errors: [{ msg: 'User with htis emain already exists' }] });
     }
 
     // Compare passwords
@@ -78,10 +80,10 @@ exports.signIn = async function (req, res) {
     // Generate JWT token
     const token = jwt.encode({ userId: user.id }, secretKey);
 
-    res.status(200).send({ token });
+    return res.status(200).send({ token });
   } catch (error) {
     console.error(error);
-    res.status(500).send({ errors: [{ msg:'Server error' }] });
+    return res.status(500).send({ errors: [{ msg: 'Server error' }] });
   }
 };
 
