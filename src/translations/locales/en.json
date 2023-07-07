@@ -13,7 +13,10 @@
       "error1":"Invalid Task Title",
       "error2":"Please enter a valid title for the task.",
       "settings": "Settings",
-      "setPage": "Settings Page"
+      "setPage": "Settings Page",
+      "signin": "Sign-In",
+      "signup": "Sign-Up",
+      "logout": "Logout"
     },
     "flat-list": {
         "alert1": "Delete Task?",
@@ -26,6 +29,10 @@
     "settings": {
       "lang": "Set language of the app",
       "theme":"Set colors theme"
-
+    },
+    "signin": {
+      "signinPage": "Sign-In Page",
+      "signupPage": "Sign-Up Page"
     }
+
 }

@@ -11,7 +11,7 @@ export const themes = {
     big: 40,
     medium: 26,
     small: 19,
-    xs: 12,
+    xs: 13,
   },
   dark: {
     button: {

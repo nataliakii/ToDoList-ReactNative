@@ -9,6 +9,7 @@ import React, {
 import _ from 'lodash';
 import i18n from '../translations/i18n';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TOKEN_STORAGE_KEY } from '../../config';
 
 type ItemType = {
   id: number;
@@ -24,6 +25,8 @@ type AppContextType = {
   addTodos: (num: number) => void;
   deleteItem: (id: number) => void;
   addTask: (title: string) => void;
+  token: string | null;
+  setToken: Dispatch<SetStateAction<string | null>>;
 };
 
 type AppProviderProps = {
@@ -38,12 +41,30 @@ export const AppContext = createContext<AppContextType>({
   addTodos: () => {},
   deleteItem: () => {},
   addTask: () => {},
+  token: null,
+  setToken: () => {},
 });
 
 // Create the provider component
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [todoListData, setTodoListData] = useState<ItemType[]>([]);
-  const [number, setNumber] = useState(0);
+  const [ number, setNumber ]=useState( 0 );
+  const [ token, setToken ]=useState<string|null>( null );
+  
+
+  useEffect(() => {
+    // Load the stored token from AsyncStorage
+    const loadToken = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem(TOKEN_STORAGE_KEY);
+        setToken(storedToken);
+      } catch (error) {
+        console.log('Error retrieving token:', error);
+      }
+    };
+
+    loadToken();
+  }, []);
 
   useEffect(() => {
     // Load the stored todoListData from AsyncStorage
@@ -115,6 +136,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         addTodos,
         deleteItem,
         addTask,
+        token,
+        setToken,
       }}>
       {children}
     </AppContext.Provider>

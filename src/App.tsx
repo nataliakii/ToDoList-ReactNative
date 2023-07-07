@@ -7,6 +7,8 @@ import { ThemeProvider } from './context/themeContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Settings from './screen/Settings';
+import SignIn from './screen/SignIn';
+import SignUp from './screen/SignUp';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -19,6 +21,8 @@ const App = () => {
               <Stack.Navigator initialRouteName="Main">
                 <Stack.Screen name="Main" component={Main} />
                 <Stack.Screen name="Settings" component={Settings} />
+                <Stack.Screen name="SignUp" component={SignUp} />
+                <Stack.Screen name="SignIn" component={SignIn} />
               </Stack.Navigator>
             </SafeAreaView>
           </PaperProvider>

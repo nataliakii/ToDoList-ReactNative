@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   TextInput,
   View,
@@ -12,17 +12,25 @@ import {
   TextStyle,
 } from 'react-native';
 import FlatListData from '../components/FlatListData';
-import LINK from '../../config';
+import { LINK } from '../../config';
+//import { TOKEN_STORAGE_KEY } from '../../config';
 import { AppContext } from '../context/appContext';
 import i18n from '../translations/i18n';
 import { useThemeMode } from '../context/themeContext';
 import { themes } from '../palette/themes';
 import CustomTouchButton from '../components/CustomTouchButton';
+import ThreeButtons from '../components/ThreeButtons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationProp } from '@react-navigation/native';
+
+type MainProps = {
+  navigation: NavigationProp<any>;
+};
 
 const screenDimensions = Dimensions.get('window');
 
-const Main = ({ navigation }) => {
-  const { addTask } = useContext(AppContext);
+const Main: React.FC<MainProps> = ({ navigation }) => {
+  const { addTask, token, setToken } = useContext(AppContext);
   const { mode, isDarkMode } = useThemeMode();
   const [modalVisible, setModalVisible] = useState(false);
   const [taskTitle, setTaskTitle] = useState('');
@@ -52,6 +60,16 @@ const Main = ({ navigation }) => {
     fontSize: themes.textSize.medium,
   };
 
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('token');
+      setToken(null);
+      navigation.navigate('Main');
+    } catch (error) {
+      console.log('Error logging out:', error);
+    }
+  };
+
   const handleAddTask = () => {
     if (taskTitle.trim() === '') {
       Alert.alert(i18n.t('main.error1'), i18n.t('main.error2'));
@@ -65,24 +83,35 @@ const Main = ({ navigation }) => {
   const goToSettings = () => {
     navigation.navigate('Settings');
   };
+  const goToSignin = () => {
+    navigation.navigate('SignIn');
+  };
+  const goToSignup = () => {
+    navigation.navigate('SignUp');
+  };
 
   return (
     <View style={{ ...styles.container, ...background }}>
       <View style={{ ...styles.header, ...borderBottom }}>
         <StatusBar />
-        <Image
-          source={{
-            uri: LINK,
-          }}
-          style={styles.headerImage}
-          onError={err => console.log(err)}
-        />
-        <CustomTouchButton
-          onPress={goToSettings}
-          title={i18n.t('main.settings')}
-          style1={{ ...styles.languageMenuContainer, ...buttonContainerStyle }}
-          style2={{ ...textModal, fontSize: themes.textSize.small }}
-        />
+        <View style={styles.imageContainer}>
+          <Image
+            source={{
+              uri: LINK,
+            }}
+            style={styles.headerImage}
+            onError={err => console.log(err)}
+          />
+          <ThreeButtons
+            goToSettings={goToSettings}
+            goToSignin={goToSignin}
+            goToSignup={goToSignup}
+            handleLogout={handleLogout}
+            buttonContainerStyle={buttonContainerStyle}
+            textModal={textModal}
+            i18n={i18n}
+          />
+        </View>
 
         <CustomTouchButton
           style1={{ ...styles.headerText, ...borderBottom, ...text }}
@@ -128,6 +157,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  header: {
+    alignItems: 'center',
+    padding: 5,
+    borderBottomWidth: 3,
+  },
   input: {
     height: 50,
     width: screenDimensions.width,
@@ -136,10 +170,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
   },
-  header: {
-    alignItems: 'center',
-    padding: 5,
-    borderBottomWidth: 3,
+  imageContainer: {
+    position: 'relative',
+  },
+  buttonContainer: {
+    position: 'absolute',
+    top: 50,
+    transform: [{ translateY: -50 }],
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingHorizontal: 20,
   },
   headerImage: {
     width: screenDimensions.width,
@@ -147,12 +188,6 @@ const styles = StyleSheet.create({
   },
   headerText: {
     marginTop: 5,
-  },
-  languageMenuContainer: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    zIndex: 1,
   },
   modalContainer: {
     flex: 1,
