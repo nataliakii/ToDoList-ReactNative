@@ -66,7 +66,7 @@ exports.signIn = async function (req, res) {
     if (!user) {
       return res
         .status(403)
-        .send({ errors: [{ msg: 'User with htis emain already exists' }] });
+        .send({ errors: [{ msg: 'This user is not found in db' }] });
     }
 
     // Compare passwords
