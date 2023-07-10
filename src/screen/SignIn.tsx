@@ -45,9 +45,7 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
   };
 
   const handleLogin = async () => {
-    try
-    {
-      console.log("------",email,password)
+    try {
       await signin(email, password);
       setToken(await AsyncStorage.getItem(TOKEN_STORAGE_KEY));
       navigation.navigate('Main');
