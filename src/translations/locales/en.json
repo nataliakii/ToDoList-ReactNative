@@ -17,7 +17,8 @@
       "signin": "Sign-In",
       "signup": "Sign-Up",
       "logout": "Logout",
-      "login": "You are not logged in. Please, log in to be able to use the app."
+      "login": "You are not logged in. Please, log in to be able to use the app.",
+      "dog": "DogPage"
     },
     "flat-list": {
         "alert1": "Delete Task?",
@@ -34,6 +35,9 @@
     "signin": {
       "signinPage": "Sign-In Page",
       "signupPage": "Sign-Up Page"
+    },
+    "dog" : {
+      "select": "Select breed"
     }
 
 }

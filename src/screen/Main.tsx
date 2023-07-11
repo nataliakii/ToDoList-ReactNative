@@ -22,7 +22,6 @@ import CustomTouchButton from '../components/CustomTouchButton';
 import ThreeButtons from '../components/ThreeButtons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp } from '@react-navigation/native';
-import SignIn from './SignIn';
 
 type MainProps = {
   navigation: NavigationProp<any>;
@@ -59,6 +58,9 @@ const Main: React.FC<MainProps> = ({ navigation }) => {
     color: themes[opposideMode].text.primary,
     fontSize: themes.textSize.medium,
   };
+  const blacktext = {
+    color: themes[opposideMode].text.b,
+  };
 
   const handleLogout = async () => {
     try {
@@ -89,6 +91,9 @@ const Main: React.FC<MainProps> = ({ navigation }) => {
   const goToSignup = () => {
     navigation.navigate('SignUp');
   };
+  const goToDog = () => {
+    navigation.navigate('DogScreen');
+  };
 
   return (
     <View style={{ ...styles.container, ...background }}>
@@ -107,6 +112,7 @@ const Main: React.FC<MainProps> = ({ navigation }) => {
             goToSignin={goToSignin}
             goToSignup={goToSignup}
             handleLogout={handleLogout}
+            goToDog={goToDog}
             buttonContainerStyle={buttonContainerStyle}
             textModal={textModal}
             i18n={i18n}
@@ -123,8 +129,8 @@ const Main: React.FC<MainProps> = ({ navigation }) => {
         ) : (
           <CustomTouchButton
             style1={{ ...styles.headerText, ...borderBottom, ...text }}
-            onPress={() => navigation.navigate(SignIn)}
-            style2={{ ...styles.input, ...backgroundModal }}
+            onPress={() => navigation.navigate('SignIn')}
+            style2={{ ...styles.input, ...backgroundModal, ...blacktext }}
             title={i18n.t('main.login')}
           />
         )}

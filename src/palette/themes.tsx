@@ -20,6 +20,7 @@ export const themes = {
     text: {
       primary: palette.white,
       secondary: palette.white,
+      b: palette.black,
     },
     background: {
       primary: palette.summerGreen,
@@ -35,6 +36,7 @@ export const themes = {
     text: {
       primary: palette.redViolet,
       secondary: palette.white,
+      b: palette.black,
     },
     background: {
       primary: palette.white,

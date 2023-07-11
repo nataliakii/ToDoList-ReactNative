@@ -4,18 +4,31 @@ import { AppContext } from '../context/appContext';
 import CustomTouchButton from './CustomTouchButton';
 import { themes } from '../palette/themes';
 
-const ThreeButtons = ({
+type ThreeButtonsProps = {
+  goToSettings: () => void;
+  goToSignin: () => void;
+  goToSignup: () => void;
+  goToDog: () => void;
+  handleLogout: () => void;
+  buttonContainerStyle?: object;
+  textModal?: object;
+  i18n: any;
+};
+
+const ThreeButtons: React.FC<ThreeButtonsProps> = ({
   goToSettings,
   goToSignin,
   goToSignup,
+  goToDog,
   handleLogout,
-  buttonContainerStyle,
-  textModal,
+  buttonContainerStyle = {},
+  textModal = {},
   i18n,
 }) => {
   const { token } = useContext(AppContext);
   const font =
     i18n.locale === 'ua' ? themes.textSize.xs : themes.textSize.small;
+
   return (
     <View style={styles.buttonContainer}>
       <CustomTouchButton
@@ -27,14 +40,24 @@ const ThreeButtons = ({
         style2={{ ...textModal, fontSize: font }}
       />
       {token ? (
-        <CustomTouchButton
-          onPress={handleLogout}
-          title={i18n.t('main.logout')}
-          style1={{
-            ...buttonContainerStyle,
-          }}
-          style2={{ ...textModal, fontSize: font }}
-        />
+        <>
+          <CustomTouchButton
+            onPress={handleLogout}
+            title={i18n.t('main.logout')}
+            style1={{
+              ...buttonContainerStyle,
+            }}
+            style2={{ ...textModal, fontSize: font }}
+          />
+          <CustomTouchButton
+            onPress={goToDog}
+            title={i18n.t('main.dog')}
+            style1={{
+              ...buttonContainerStyle,
+            }}
+            style2={{ ...textModal, fontSize: font }}
+          />
+        </>
       ) : (
         <>
           <CustomTouchButton
