@@ -13,10 +13,9 @@ const ThreeButtons = ({
   textModal,
   i18n,
 }) => {
-  const {token}=useContext( AppContext );
+  const { token } = useContext(AppContext);
   const font =
-  i18n.locale === 'ua' ? themes.textSize.xs : themes.textSize.small;
-console.log(font);
+    i18n.locale === 'ua' ? themes.textSize.xs : themes.textSize.small;
   return (
     <View style={styles.buttonContainer}>
       <CustomTouchButton

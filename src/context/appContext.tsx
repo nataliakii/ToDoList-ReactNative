@@ -7,12 +7,19 @@ import React, {
   useEffect,
 } from 'react';
 import _ from 'lodash';
-import i18n from '../translations/i18n';
+//import i18n from '../translations/i18n';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TOKEN_STORAGE_KEY } from '../../config';
+import { TOKEN_STORAGE_KEY, USERID_STORAGE_KEY } from '../../config';
+import {
+  addTaskApi,
+  deleteTaskApi,
+  fetchTasksApi,
+  toggleDoneApi,
+  editTitleApi,
+} from '../api';
 
 type ItemType = {
-  id: number;
+  _id: number;
   title: string;
   done: boolean;
 };
@@ -20,13 +27,14 @@ type ItemType = {
 type AppContextType = {
   todoListData: ItemType[];
   setTodoListData: Dispatch<SetStateAction<ItemType[]>>;
-  number: any;
-  setNumber: Dispatch<SetStateAction<any>>;
-  addTodos: (num: number) => void;
-  deleteItem: (id: number) => void;
+  deleteTask: (_id: string) => void;
   addTask: (title: string) => void;
   token: string | null;
   setToken: Dispatch<SetStateAction<string | null>>;
+  userId: string | null;
+  setUserId: Dispatch<SetStateAction<string | null>>;
+  toggleDone: (done: boolean, taskId: string) => void;
+  editTitle: (title: string, taskId: string) => void;
 };
 
 type AppProviderProps = {
@@ -36,93 +44,116 @@ type AppProviderProps = {
 export const AppContext = createContext<AppContextType>({
   todoListData: [],
   setTodoListData: () => {},
-  number: null,
-  setNumber: () => {},
-  addTodos: () => {},
-  deleteItem: () => {},
+  deleteTask: () => {},
   addTask: () => {},
   token: null,
   setToken: () => {},
+  userId: null,
+  setUserId: () => {},
+  toggleDone: () => {},
+  editTitle: () => {},
 });
 
 // Create the provider component
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [todoListData, setTodoListData] = useState<ItemType[]>([]);
-  const [number, setNumber] = useState(0);
   const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
+  //check if there is auth
   useEffect(() => {
-    // Load the stored token from AsyncStorage
     const loadToken = async () => {
       try {
         const storedToken = await AsyncStorage.getItem(TOKEN_STORAGE_KEY);
+        const userId = await AsyncStorage.getItem(USERID_STORAGE_KEY);
         setToken(storedToken);
+        setUserId(userId);
       } catch (error) {
         console.log('Error retrieving token:', error);
       }
     };
-
     loadToken();
   }, []);
-
+  //upload todolist from DB if user is signed in or AsyncStorage - if not
   useEffect(() => {
-    // Load the stored todoListData from AsyncStorage
-    const loadTodoListData = async () => {
+    // Fetch initial data when the token is available
+    const fetchInitialData = async () => {
       try {
-        const storedData = await AsyncStorage.getItem('todoListData');
-        if (storedData) {
-          const parsedData = JSON.parse(storedData);
-          setTodoListData(parsedData);
-        }
+        const response = await fetchTasksApi(token, userId);
+        setTodoListData(response.data.tasks);
       } catch (error) {
-        console.log('Error loading todoListData from AsyncStorage:', error);
+        console.error('Failed to fetch initial data:', error);
       }
     };
 
-    loadTodoListData();
-  }, []);
-
-  useEffect(() => {
-    // Save the updated todoListData to AsyncStorage whenever it changes
-    const saveTodoListData = async () => {
-      try {
-        const stringifiedData = JSON.stringify(todoListData);
-        await AsyncStorage.setItem('todoListData', stringifiedData);
-      } catch (error) {
-        console.log('Error saving todoListData to AsyncStorage:', error);
-      }
-    };
-
-    saveTodoListData();
-  }, [todoListData]);
-
-  // Function that creates a new todo list according to the user's input
-  const addTodos = (num: number) => {
-    const newData = [];
-    for (let i = 0; i < num; i++) {
-      const obj = {
-        id: i + 1,
-        title: i18n.t('main.task') + `${i + 1}`,
-        done: false,
-      };
-      newData.push(obj);
+    if (token && userId) {
+      fetchInitialData();
     }
-    setTodoListData(newData);
+  }, [token, userId]);
+  //save todolist to todoListData
+  //useEffect(() => {
+  //  // Save the updated todoListData to AsyncStorage whenever it changes
+  //  const saveTodoListData = async () => {
+  //    try {
+  //      const stringifiedData = JSON.stringify(todoListData);
+  //      await AsyncStorage.setItem('todoListData', stringifiedData);
+  //    } catch (error) {
+  //      console.log('Error saving todoListData to AsyncStorage:', error);
+  //    }
+  //  };
+  //  if (token === null) {
+  //    saveTodoListData();
+  //  }
+  //}, [todoListData]);
+
+  const addTask = async (title: string) => {
+    try {
+      console.log('addTaks from AppContext hit. userId is ', userId);
+      const response = await addTaskApi(userId, title);
+      console.log('Response data from AppContext', response);
+      setTodoListData(response.tasks);
+      console.log('newly set TODOLIST -------', todoListData);
+    } catch (error) {
+      console.error('Failed to add task:', error);
+    }
   };
 
-  // Function to add a new task to the todo list
-  const addTask = (title: string) => {
-    const newTask = {
-      id: todoListData.length + 1,
-      title: title,
-      done: false,
-    };
-    setTodoListData([...todoListData, newTask]);
+  const toggleDone = async (done: boolean, taskId: string) => {
+    try {
+      const response = await toggleDoneApi(taskId, done);
+      console.log(
+        'toggleDode is made successfullt, this task was updated',
+        response,
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const deleteItem = (id: number) => {
-    const newTodoListData = _.reject(todoListData, { id: id });
-    setTodoListData(newTodoListData);
+  const deleteTask = async (taskId: string) => {
+    //const newTodoListData = _.reject(todoListData, { id: id });
+    //setTodoListData( newTodoListData );
+    try {
+      const response = await deleteTaskApi(taskId);
+      console.log('task was deleted updated list of tasks is', response);
+      setTodoListData(response.tasks);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const editTitle = async (title: string, taskId: string) => {
+    try {
+      const response = await editTitleApi(taskId, title);
+      console.log('task was edited updated list of tasks is', response);
+      setTodoListData(prevData =>
+        prevData.map(task =>
+          task._id === taskId ? { ...task, title: response.title } : task,
+        ),
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -130,13 +161,14 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       value={{
         todoListData,
         setTodoListData,
-        number,
-        setNumber,
-        addTodos,
-        deleteItem,
+        deleteTask,
         addTask,
         token,
         setToken,
+        setUserId,
+        userId,
+        toggleDone,
+        editTitle,
       }}>
       {children}
     </AppContext.Provider>

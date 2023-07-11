@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   TextInput,
   View,
@@ -22,6 +22,7 @@ import CustomTouchButton from '../components/CustomTouchButton';
 import ThreeButtons from '../components/ThreeButtons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp } from '@react-navigation/native';
+import SignIn from './SignIn';
 
 type MainProps = {
   navigation: NavigationProp<any>;
@@ -34,8 +35,8 @@ const Main: React.FC<MainProps> = ({ navigation }) => {
   const { mode, isDarkMode } = useThemeMode();
   const [modalVisible, setModalVisible] = useState(false);
   const [taskTitle, setTaskTitle] = useState('');
-  const { buttonStyle } = themes;
 
+  const { buttonStyle } = themes;
   const opposideMode = isDarkMode ? 'light' : 'dark';
   const backgroundModal: ViewStyle = {
     backgroundColor: themes[opposideMode].background.primary,
@@ -44,7 +45,6 @@ const Main: React.FC<MainProps> = ({ navigation }) => {
     ...buttonStyle,
     backgroundColor: themes[mode || 'light'].button.primary,
   };
-
   const background: ViewStyle = {
     backgroundColor: themes[mode || 'light'].background.primary,
   };
@@ -113,12 +113,21 @@ const Main: React.FC<MainProps> = ({ navigation }) => {
           />
         </View>
 
-        <CustomTouchButton
-          style1={{ ...styles.headerText, ...borderBottom, ...text }}
-          onPress={() => setModalVisible(true)}
-          style2={{ ...styles.input, ...backgroundModal, ...textModal }}
-          title={i18n.t('main.add')}
-        />
+        {token ? (
+          <CustomTouchButton
+            style1={{ ...styles.headerText, ...borderBottom, ...text }}
+            onPress={() => setModalVisible(true)}
+            style2={{ ...styles.input, ...backgroundModal, ...textModal }}
+            title={i18n.t('main.add')}
+          />
+        ) : (
+          <CustomTouchButton
+            style1={{ ...styles.headerText, ...borderBottom, ...text }}
+            onPress={() => navigation.navigate(SignIn)}
+            style2={{ ...styles.input, ...backgroundModal }}
+            title={i18n.t('main.login')}
+          />
+        )}
       </View>
       <FlatListData />
       <Modal visible={modalVisible} animationType="slide" transparent={true}>

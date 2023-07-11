@@ -16,7 +16,8 @@
       "setPage": "Settings Page",
       "signin": "Sign-In",
       "signup": "Sign-Up",
-      "logout": "Logout"
+      "logout": "Logout",
+      "login": "You are not logged in. Please, log in to be able to use the app."
     },
     "flat-list": {
         "alert1": "Delete Task?",

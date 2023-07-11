@@ -10,7 +10,7 @@ import {
   TextStyle,
 } from 'react-native';
 import i18n from '../translations/i18n';
-import { TOKEN_STORAGE_KEY } from '../../config';
+import { TOKEN_STORAGE_KEY, USERID_STORAGE_KEY } from '../../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { signup } from '../auth';
 import { NavigationProp } from '@react-navigation/native';
@@ -24,7 +24,7 @@ type SignUpProps = {
 const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { setToken } = useContext(AppContext);
+  const { setToken, setUserId } = useContext(AppContext);
   const [error, setError] = useState(null);
   const { mode } = useThemeMode();
   const background: ViewStyle = {
@@ -47,7 +47,8 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
   const handleSignUp = async () => {
     try {
       await signup(email, password);
-      setToken(await AsyncStorage.getItem(TOKEN_STORAGE_KEY));
+      setToken( await AsyncStorage.getItem( TOKEN_STORAGE_KEY ) );
+      setUserId( await AsyncStorage.getItem(  USERID_STORAGE_KEY ) )
       navigation.navigate('Main');
     } catch (error) {
       console.log('Error signing up:', error?.response?.data);
@@ -77,7 +78,7 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
         {error && <Text style={styles.errorText}>{error}</Text>}
         <CustomTouchButton
           onPress={handleSignUp}
-          title={i18n.t('signin.signupPage')}
+          title={i18n.t('main.signup')}
           style1={{ ...buttonContainerStyle, ...styles.padding }}
           style2={text}
         />
